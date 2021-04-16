@@ -1,0 +1,16 @@
+{
+  "name": "dew",
+  "version": "1.0.0",
+  "description": "Statistics and web registration for the server",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mailtoken-mc/dew.git"
+  },
+  "author": "qgerman2",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mailtoken-mc/dew/issues"
+  },
+  "homepage": "https://github.com/mailtoken-mc/dew#readme"
+}
