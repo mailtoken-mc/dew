@@ -6,7 +6,7 @@
     module.exports = {
         data: function() {
             return {
-                msg: 'Hello world!'
+                msg: 'Hola mundo'
             }
         }
     }
@@ -14,6 +14,6 @@
 
 <style>
     .example {
-        color: red;
+        color: green;
     }
-</style
+</style>

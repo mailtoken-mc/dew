@@ -1,8 +1,7 @@
 {
-  "ignore": ["dist"],
+  "ignore": ["dist", "node_modules"],
   "events": {
-    "start": "npm run build",
-    "restart": "npm run build"
+    "start": "npm run build"
   },
   "ext": "js,vue,pug"
 }
