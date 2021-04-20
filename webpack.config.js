@@ -3,7 +3,8 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    watch: true,
+    entry: './src/client/components.js',
     resolve: {
         alias: {
             vue: 'vue/dist/vue.js'
@@ -28,7 +29,7 @@ module.exports = {
         new VueLoaderPlugin()
     ],
     output: {
-        filename: 'bundle.js',
+        filename: 'components.js',
         path: path.resolve(__dirname, 'dist'),
     }
 };
