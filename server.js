@@ -1,13 +1,23 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-app.use(express.static(__dirname + '/dist'));
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, './src/server/template'));
-app.get('/', (req, res) => {
-    res.render('index')
-});
+const Database = require("./src/server/db")
+//pages
+const Player = require("./src/server/player")
 
-const server = app.listen(8080, () => {
-    console.log(`Express running → PORT ${server.address().port}`);
-});
+class HttpServer {
+    constructor() {
+        console.log("httpserver")
+    }
+    async start() {
+        await Database.connect();
+        app.use(express.static(__dirname + '/dist'));
+        app.set('view engine', 'pug');
+        app.set('views', path.join(__dirname, './src/server/template'));
+        app.get('/player/:name', Player)
+
+        app.listen(8080);
+    }
+}
+main = new HttpServer();
+main.start();
