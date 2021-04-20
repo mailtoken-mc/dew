@@ -6,7 +6,7 @@
     module.exports = {
         data: function() {
             return {
-                msg: 'Hola mundo'
+                msg: 'Hola vue'
             }
         }
     }
@@ -14,6 +14,6 @@
 
 <style>
     .example {
-        color: green;
+        color: lightgreen;
     }
 </style>
