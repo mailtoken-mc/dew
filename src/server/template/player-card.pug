@@ -7,9 +7,10 @@ style.
 div.card
     div.image
     div.info
-        p #{player.name}
-        p #{player.alive}
-        p #{player.born}
-        p #{player.time}
-script.
-    console.log("#{player.name}")
+        p jugador: #{player.name}
+            = player.vivo ? " esta vivo" : " esta muerto"
+        p se unio el #{player.born}
+        p jugo #{player.time} milisegundos
+        if !player.alive
+            p murio el #{player.died}
+            p por #{player.death_reason} de #{player.death_by}
