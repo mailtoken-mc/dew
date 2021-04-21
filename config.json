@@ -1,6 +1,7 @@
 {
-  "dbname"	: "dbname",
-  "dbtable" : "dbtable",
-  "dbuser"	: "dbuser",
-  "dbpass"	: "dbpass"
+  "dbname"	: "name",
+  "dbplayertable" : "player",
+  "dbhistorytable" : "history",
+  "dbuser"	: "user",
+  "dbpass"	: "pass"
 }
