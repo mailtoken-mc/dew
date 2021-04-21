@@ -18,14 +18,23 @@ Database.connect = async function() {
 Database.requestPlayer = async function(name) {
     try {
         return await Database.pool.query(
-            "SELECT * FROM `" + config.dbname + "`.`" + config.dbtable + "` " +
-            "WHERE `name` = ?", name)
+            "SELECT * FROM `" + config.dbname + "`.`" + config.dbplayertable + "` " +
+                "WHERE `name` = ?", name)
     } catch (e) {
         console.error(e)
         return false
     }
-
-
+}
+Database.requestHistory = async function(count) {
+    try {
+        return await Database.pool.query(
+            "SELECT * FROM `" + config.dbname + "`.`" + config.dbhistorytable + "` " +
+                "ORDER BY `i` " +
+                "DESC LIMIT ?", count)
+    } catch (e) {
+        console.error(e)
+        return false
+    }
 }
 
 module.exports = Database;

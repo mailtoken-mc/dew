@@ -8,7 +8,7 @@ div.card
     div.image
     div.info
         p jugador: #{player.name}
-            = player.vivo ? " esta vivo" : " esta muerto"
+            = player.alive ? " esta vivo" : " esta muerto"
         p se unio el #{player.born}
         p jugo #{player.time} milisegundos
         if !player.alive

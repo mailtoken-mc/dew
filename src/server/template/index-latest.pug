@@ -1,1 +1,20 @@
-p latest
+style.
+    .latest {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        background-color: cyan;
+    }
+div.latest
+    h3 ultima actividad
+    each entry in entries
+        li
+            each block in entry
+                case block.type
+                    when "player"
+                        a(href = "/player/" + block.data) #{block.data}
+                    when "text"
+                    when "advancement"
+                    when "entity"
+                    when "damage"
+                        = block.data
