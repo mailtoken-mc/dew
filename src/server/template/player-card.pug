@@ -13,4 +13,7 @@ div.card
         p jugo #{player.time} milisegundos
         if !player.alive
             p murio el #{player.died}
-            p por #{player.death_reason} de #{player.death_by}
+            p
+                | por #{player.death_reason}
+                if player.death_by !== "UNKNOWN"
+                    | de #{player.death_by}

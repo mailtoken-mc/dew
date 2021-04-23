@@ -1,0 +1,62 @@
+style.
+    .leaderboards {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .board-advancements {
+        background-color: blue;
+    }
+    .board-experience {
+        background-color: orange;
+    }
+    .board-kills {
+        background-color: yellow;
+    }
+    .board-time {
+        background-color: green;
+    }
+    .board-title {
+        display: flex;
+        justify-content: center;
+    }
+    .board-entries {
+        display: flex;
+        flex-direction: column;
+        width: 14em;
+        min-width: 220px;
+    }
+div.leaderboards
+    div.board-advancements
+        h3.board-title logros
+        div.board-entries
+            each entry in top_advancement
+                li
+                    a(href = "/player/" + entry.name) #{entry.name}
+                    |
+                    | #{entry.advancement_count}
+    div.board-experience
+        h3.board-title experiencia
+        div.board-entries
+            each entry in top_experience
+                li
+                    a(href = "/player/" + entry.name) #{entry.name}
+                    |
+                    | #{entry.experience}
+    div.board-kills
+        h3.board-title muertes
+        div.board-entries
+            each entry in top_kills
+                li
+                    a(href = "/player/" + entry.name) #{entry.name}
+                    |
+                    | #{entry.kills}
+    div.board-time
+        h3.board-title tiempo
+        div.board-entries
+            each entry in top_time
+                li
+                    a(href = "/player/" + entry.name) #{entry.name}
+                    |
+                    | #{entry.time}
