@@ -1,14 +1,17 @@
-const webpack = require('webpack');
-const {VueLoaderPlugin} = require('vue-loader')
-const path = require('path');
+const webpack = require("webpack");
+const {VueLoaderPlugin} = require("vue-loader")
+const path = require("path");
 
 module.exports = {
-    mode: 'development',
+    mode: "development",
     watch: true,
-    entry: './src/client/register.js',
+    entry: {
+        register: "./src/client/register.js",
+        recover: "./src/client/recover.js"
+    },
     resolve: {
         alias: {
-            'vue': 'vue/dist/vue.esm-bundler.js'
+            "vue": "vue/dist/vue.esm-bundler.js"
         },
     },
     module: {
@@ -19,13 +22,13 @@ module.exports = {
             },
             {
                 test: /\.pug$/,
-                loader: 'pug-plain-loader'
+                loader: "pug-plain-loader"
             },
             {
                 test: /\.css$/,
                 use: [
-                    'vue-style-loader',
-                    'css-loader'
+                    "vue-style-loader",
+                    "css-loader"
                 ]
             }
         ]
@@ -38,7 +41,7 @@ module.exports = {
         new VueLoaderPlugin()
     ],
     output: {
-        filename: 'register.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: "[name].js",
+        path: path.resolve(__dirname, "dist"),
     }
 };

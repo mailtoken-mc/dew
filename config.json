@@ -1,7 +1,14 @@
 {
-  "dbname"	: "name",
-  "dbplayertable" : "player",
-  "dbhistorytable" : "history",
-  "dbuser"	: "user",
-  "dbpass"	: "pass"
+  "db"            : "serevr",
+  "dbuser"        : "node",
+  "dbpass"        : "miau",
+  "playerTable"   : "jugador",
+  "historyTable"  : "historia",
+  "tokenTable"    : "emails",
+  "accountTable"  : "cuenta",
+  "mail"          : "miu@gmail.com",
+  "mailuser"      : "miu",
+  "mailpass"      : "mou",
+  "tokenSeed"     : "seed",
+  "passSeed"      : "seed2"
 }

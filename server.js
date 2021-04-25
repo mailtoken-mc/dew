@@ -11,6 +11,8 @@ const Player = require("./src/server/player")
 const Index = require("./src/server/index")
 const Register = require("./src/server/register")
 const RegisterPost = require("./src/server/register_post")
+const Recover = require("./src/server/recover")
+const RecoverPost = require("./src/server/recover_post")
 
 class HttpServer {
     constructor() {
@@ -25,8 +27,9 @@ class HttpServer {
         app.set("views", path.join(__dirname, "./src/server/template"))
         app.get("/", Index)
         app.get("/player/:name", Player)
+        app.get("/recover", Recover)
+        app.post("/recover", upload.none(), RecoverPost)
         app.get("/register/:token", Register)
-        app.get("/badtoken", (req, res) => {res.render("badtoken")})
         app.post("/register", upload.single("skin"), RegisterPost)
         app.listen(8080);
     }

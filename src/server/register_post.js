@@ -1,6 +1,7 @@
 const Database = require("./db")
 const UserError = require("../shared/usererror")
 const RegisterShared = require("../shared/register")
+const Response = require("./response_post")
 
 const sharp = require("sharp")
 
@@ -10,7 +11,7 @@ async function RegisterPost(req, res) {
     try {
         RegisterShared.checkInput(req.body)
     } catch (e) {
-        sendError(res, e.message)
+        Response.error(res, e.message)
         return
     }
     //Check image
@@ -21,7 +22,7 @@ async function RegisterPost(req, res) {
             image = result.toString("base64")
         }
     } catch (e) {
-        sendError(res, e.message)
+        Response.error(res, e.message)
         return
     }
     //Issue registration
@@ -38,11 +39,11 @@ async function RegisterPost(req, res) {
             case 1:
                 throw new UserError("Invalid token", "UNAVAILABLETOKEN")
             case 2:
-                sendSuccess(res)
+                Response.success(res)
         }
     } catch (e) {
         if (e instanceof UserError) {
-            sendError(res, e.message)
+            Response.error(res, e.message)
         }
     } finally {
         if (conn)
@@ -61,17 +62,4 @@ async function checkImage(buffer) {
     } catch (e) {
         throw e
     }
-}
-
-function sendError(res, error) {
-    let response = {}
-    response.success = 0
-    response.exception = error
-    res.send(JSON.stringify(response))
-}
-
-function sendSuccess(res) {
-    let response = {}
-    response.success = 1
-    res.send(JSON.stringify(response))
 }
