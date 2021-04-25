@@ -1,13 +1,14 @@
+const webpack = require('webpack');
 const {VueLoaderPlugin} = require('vue-loader')
 const path = require('path');
 
 module.exports = {
     mode: 'development',
     watch: true,
-    entry: './src/client/components.js',
+    entry: './src/client/register.js',
     resolve: {
         alias: {
-            vue: 'vue/dist/vue.js'
+            'vue': 'vue/dist/vue.esm-bundler.js'
         },
     },
     module: {
@@ -15,6 +16,10 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: "vue-loader"
+            },
+            {
+                test: /\.pug$/,
+                loader: 'pug-plain-loader'
             },
             {
                 test: /\.css$/,
@@ -26,10 +31,14 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            __VUE_OPTIONS_API__: true,
+            __VUE_PROD_DEVTOOLS__: true
+        }),
         new VueLoaderPlugin()
     ],
     output: {
-        filename: 'components.js',
+        filename: 'register.js',
         path: path.resolve(__dirname, 'dist'),
     }
 };

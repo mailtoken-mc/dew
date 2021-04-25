@@ -1,4 +1,4 @@
 {
-  "ignore": ["dist", "node_modules"],
+  "ignore": ["dist", "node_modules", "src/client"],
   "ext": "js,vue,pug"
 }
