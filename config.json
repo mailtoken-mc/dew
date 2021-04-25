@@ -1,14 +1,16 @@
 {
   "db"            : "serevr",
-  "dbuser"        : "node",
-  "dbpass"        : "miau",
-  "playerTable"   : "jugador",
-  "historyTable"  : "historia",
-  "tokenTable"    : "emails",
-  "accountTable"  : "cuenta",
+  "dbUser"        : "node",
+  "dbPass"        : "miau",
+  "tableMail"     : "email",
+  "tableToken"    : "token",
+  "tablePlayer"   : "jugador",
+  "tableHistory"  : "historia",
+  "tableAccount"  : "cuenta",
+  "tableRecover"  : "recuperar",
   "mail"          : "miu@gmail.com",
-  "mailuser"      : "miu",
-  "mailpass"      : "mou",
-  "tokenSeed"     : "seed",
-  "passSeed"      : "seed2"
+  "mailUser"      : "miu",
+  "mailPass"      : "mou",
+  "seedToken"     : "seed",
+  "seedPass"      : "seed2"
 }
