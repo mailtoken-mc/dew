@@ -7,9 +7,8 @@
   "tablePlayer"   : "jugador",
   "tableHistory"  : "historia",
   "tableAccount"  : "cuenta",
-  "tableRecover"  : "recuperar",
+  "tableRecover"  : "recovery",
   "mail"          : "miu@gmail.com",
-  "mailUser"      : "miu",
   "mailPass"      : "mou",
   "seedToken"     : "seed",
   "seedPass"      : "seed2"
