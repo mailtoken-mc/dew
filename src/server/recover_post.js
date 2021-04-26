@@ -4,6 +4,7 @@ const crypto = require("crypto")
 const nodemailer = require("nodemailer")
 const RecoverShared = require("../shared/recover")
 const Response = require("./response_post")
+const Mail = require("./mail")
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -37,12 +38,7 @@ async function RecoverPost(req, res) {
         let queryResult = await Database.recoverAccount(conn, {token: token, user: req.body.user, hash: hash})
         //Found nonexistent/expired hash, send new one
         if (queryResult[0].result === 2) {
-            await transporter.sendMail({
-                from: config.mail,
-                to: req.body.mail,
-                subject: "Recuperar",
-                html: hash
-            })
+            Mail.sendRecover(req.body.mail, hash)
         }
     } catch (e) {
         console.error(e)

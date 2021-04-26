@@ -42,7 +42,10 @@ Mail.process = async function() {
             conn = await Database.pool.getConnection()
             for (const address of addresses) {
                 //Check if address is eligible for a code
-                let hash = crypto.createHash("sha256").update(address).digest('hex').toUpperCase()
+                let hash = crypto.createHmac("sha256", config.seedToken)
+                    .update(address)
+                    .digest('hex')
+                    .toUpperCase()
                 let queryResult = await Database.checkMail(conn, hash)
                 let eligible = Boolean(queryResult[0].result)
                 //Send mail with the results
@@ -110,6 +113,18 @@ Mail.send = async function(address, hash, eligible) {
     }
     try {
         await transporter.sendMail(mailOptions)
+    } catch(e) {
+        throw e
+    }
+}
+Mail.sendRecover = async function(address, hash) {
+    try {
+        await transporter.sendMail({
+            from: config.mail,
+            to: address,
+            subject: "Recuperar",
+            html: hash
+        })
     } catch(e) {
         throw e
     }

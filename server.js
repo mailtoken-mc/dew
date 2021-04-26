@@ -20,7 +20,7 @@ const Mail = require("./src/server/mail")
 
 class HttpServer {
     constructor() {
-        console.log("httpservera")
+        console.log("httpserver")
     }
     async start() {
         await Database.connect()
@@ -41,6 +41,9 @@ class HttpServer {
     }
 }
 main = new HttpServer()
-main.start()
-if (false)
-    Mail.process()
+main.start().then(r => {
+    function update() {
+        //Mail.process().then(() => setTimeout(update, 10000))
+    }
+    update()
+})
