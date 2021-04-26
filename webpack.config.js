@@ -7,7 +7,8 @@ module.exports = {
     watch: true,
     entry: {
         register: "./src/client/register.js",
-        recover: "./src/client/recover.js"
+        recover: "./src/client/recover.js",
+        reset: "./src/client/reset.js"
     },
     resolve: {
         alias: {

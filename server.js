@@ -13,6 +13,8 @@ const Register = require("./src/server/register")
 const RegisterPost = require("./src/server/register_post")
 const Recover = require("./src/server/recover")
 const RecoverPost = require("./src/server/recover_post")
+const Reset = require("./src/server/reset")
+const ResetPost = require("./src/server/reset_post")
 
 class HttpServer {
     constructor() {
@@ -29,6 +31,8 @@ class HttpServer {
         app.get("/player/:name", Player)
         app.get("/recover", Recover)
         app.post("/recover", upload.none(), RecoverPost)
+        app.get("/reset/:hash", Reset)
+        app.post("/reset", upload.none(), ResetPost)
         app.get("/register/:token", Register)
         app.post("/register", upload.single("skin"), RegisterPost)
         app.listen(8080);
