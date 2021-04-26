@@ -15,10 +15,12 @@ const Recover = require("./src/server/recover")
 const RecoverPost = require("./src/server/recover_post")
 const Reset = require("./src/server/reset")
 const ResetPost = require("./src/server/reset_post")
+//mail
+const Mail = require("./src/server/mail")
 
 class HttpServer {
     constructor() {
-        console.log("httpserver")
+        console.log("httpservera")
     }
     async start() {
         await Database.connect()
@@ -35,8 +37,10 @@ class HttpServer {
         app.post("/reset", upload.none(), ResetPost)
         app.get("/register/:token", Register)
         app.post("/register", upload.single("skin"), RegisterPost)
-        app.listen(8080);
+        app.listen(8080)
     }
 }
-main = new HttpServer();
-main.start();
+main = new HttpServer()
+main.start()
+if (false)
+    Mail.process()

@@ -1,6 +1,6 @@
-const config = require('../../config.json');
+const config = require('../../config.json')
 const mariadb = require("mariadb")
-const Database = {};
+const Database = {}
 Database.connect = async function() {
     Database.pool = mariadb.createPool({
         user: config.dbUser,
@@ -11,12 +11,12 @@ Database.connect = async function() {
         console.log("Successfully connected to database server")
         let query
         query =
-            "CREATE OR REPLACE FUNCTION `" + config.db + "`.`registerAccount`(token TINYTEXT, username TINYTEXT, pass TINYTEXT, org INT, year INT) RETURNS INT " +
+            "CREATE OR REPLACE FUNCTION `" + config.db + "`.`registerAccount`(hash TINYTEXT, username TINYTEXT, pass TINYTEXT, org INT, year INT) RETURNS INT " +
             "BEGIN " +
             " IF EXISTS(SELECT 1 FROM `" + config.db + "`.`" + config.tableAccount + "` WHERE `user` = username LIMIT 1) THEN " +
             "  RETURN 0;" +
             " END IF;" +
-            " UPDATE `" + config.db + "`.`" + config.tableToken + "` SET `registered` = 1, `user` = username WHERE `registered` = 0 AND LEFT(`hash`, 5) = token LIMIT 1;" +
+            " UPDATE `" + config.db + "`.`" + config.tableToken + "` SET `registered` = 1, `user` = username WHERE `registered` = 0 AND LEFT(`token`, 5) = hash LIMIT 1;" +
             " IF (ROW_COUNT() = 0) THEN " +
             "  RETURN 1;" +
             " ELSE " +
@@ -26,27 +26,39 @@ Database.connect = async function() {
             "END"
         await conn.query(query)
         query =
-            "CREATE OR REPLACE FUNCTION `" + config.db + "`.`recoverAccount`(token TINYTEXT, username TINYTEXT, hash TINYTEXT) RETURNS INT " +
+            "CREATE OR REPLACE FUNCTION `" + config.db + "`.`recoverAccount`(searchtoken TINYTEXT, username TINYTEXT, resethash TINYTEXT) RETURNS INT " +
             "BEGIN " +
-            " IF NOT EXISTS (SELECT 1 FROM `" + config.db + "`.`" + config.tableToken + "` WHERE `token` = token AND `user` = username) THEN " +
+            " IF NOT EXISTS (SELECT 1 FROM `" + config.db + "`.`" + config.tableToken + "` WHERE `token` = searchtoken AND `user` = username) THEN " +
             "  RETURN 0;" +
             " END IF;" +
             " IF EXISTS (SELECT 1 FROM `" + config.db + "`.`" + config.tableRecover + "` WHERE `user` = username AND `expires` > CURRENT_TIMESTAMP()) THEN " +
             "  RETURN 1;" +
             " END IF;" +
             " SET @time = TIMESTAMPADD(HOUR, 1, CURRENT_TIMESTAMP());" +
-            " INSERT INTO `" + config.db + "`.`" + config.tableRecover + "` (`hash`, `user`, `expires`) VALUES (hash, username, @TIME) ON DUPLICATE KEY UPDATE `hash` = hash, `expires` = @time;" +
+            " INSERT INTO `" + config.db + "`.`" + config.tableRecover + "` (`hash`, `user`, `expires`) VALUES (resethash, username, @TIME) ON DUPLICATE KEY UPDATE `hash` = resethash, `expires` = @time;" +
             " RETURN 2;" +
             "END"
         await conn.query(query)
         query =
-            "CREATE OR REPLACE FUNCTION `" + config.db + "`.`resetAccount`(hash TINYTEXT, username TINYTEXT, pass TINYTEXT) RETURNS INT " +
+            "CREATE OR REPLACE FUNCTION `" + config.db + "`.`resetAccount`(resethash TINYTEXT, username TINYTEXT, newpass TINYTEXT) RETURNS INT " +
             "BEGIN " +
-            " IF NOT EXISTS (SELECT 1 FROM `" + config.db + "`.`" + config.tableRecover + "` WHERE `hash` = hash AND `user` = username AND `expires` > CURRENT_TIMESTAMP()) THEN " +
+            " IF NOT EXISTS (SELECT 1 FROM `" + config.db + "`.`" + config.tableRecover + "` WHERE `hash` = resethash AND `user` = username AND `expires` > CURRENT_TIMESTAMP()) THEN " +
             "  RETURN 0;" +
             " END IF;" +
             " DELETE FROM `" + config.db + "`.`" + config.tableRecover + "` WHERE `user` = username;" +
-            " UPDATE `" + config.db + "`.`" + config.tableAccount + "` SET `pass` = pass WHERE `user` = username;" +
+            " UPDATE `" + config.db + "`.`" + config.tableAccount + "` SET `pass` = newpass WHERE `user` = username;" +
+            " RETURN 1;" +
+            "END"
+        await conn.query(query)
+        query =
+            "CREATE OR REPLACE FUNCTION `" + config.db + "`.`checkMail`(hash TINYTEXT) RETURNS INT " +
+            "BEGIN " +
+            " IF EXISTS (SELECT 1 FROM `" + config.db + "`.`" + config.tableToken + "` WHERE `token` = hash AND `registered` = 1) THEN " +
+            "  RETURN 0;" +
+            " END IF;" +
+            " IF NOT EXISTS(SELECT 1 FROM `" + config.db + "`.`" + config.tableToken + "` WHERE `token` = hash) THEN " +
+            "  INSERT INTO `" + config.db + "`.`" + config.tableToken + "` (`token`) VALUES (hash);" +
+            " END IF;" +
             " RETURN 1;" +
             "END"
         await conn.query(query)
@@ -179,4 +191,14 @@ Database.resetAccount = async function(conn, params) {
         throw e
     }
 }
-module.exports = Database;
+Database.checkMail = async function(conn, hash) {
+    try {
+        return await conn.query(
+            "SELECT `" + config.db + "`.`checkMail`(?) AS result",
+            hash
+        )
+    } catch (e) {
+        throw e
+    }
+}
+module.exports = Database

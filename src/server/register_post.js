@@ -33,6 +33,7 @@ async function RegisterPost(req, res) {
         //Attempt to register
         let queryResult = await Database.registerAccount(conn, req.body)
         //Check how registration went
+        console.log(queryResult[0].result)
         switch (queryResult[0].result) {
             case 0:
                 throw new UserError("Username unavailable", "UNAVAILABLEUSER")
@@ -44,6 +45,8 @@ async function RegisterPost(req, res) {
     } catch (e) {
         if (e instanceof UserError) {
             Response.error(res, e.message)
+        } else {
+            console.log(e)
         }
     } finally {
         if (conn)
